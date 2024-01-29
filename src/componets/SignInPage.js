@@ -37,7 +37,7 @@ const SignInPage = () => {
     result = await result.json();
     if (result.name) {
       localStorage.setItem('user', JSON.stringify(result));
-      navigate('/');
+      navigate('/')
     }
     else {
       alert("Please enter correct deatils");
