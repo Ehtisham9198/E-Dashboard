@@ -35,7 +35,7 @@ const SignUp = () => {
     const password = PasswordInput.current.value;
     const name = NameInput.current.value;;
     const CollectData = async () => {
-      let result = await fetch('/signup', {
+      let result = await fetch('https://e-dashboard-two.vercel.app/signup', {
         method: "POST",
         body: JSON.stringify({ name, email, password }),
         headers: {
