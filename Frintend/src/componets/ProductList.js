@@ -18,7 +18,7 @@ const ProductList = () => {
 
 
   const DeleteHandler = async (id) => {
-    let result = await fetch(`/product/${id}`, {
+    let result = await fetch(`https://e-dashboard-two.vercel.app/product/${id}`, {
       method: "Delete",
     });
     result = await result.json();
@@ -31,7 +31,7 @@ const ProductList = () => {
   const SearchHandler = async (event) => {
     let key = event.target.value;
     if(key){
-    let result = await fetch(`/search/${key}`);
+    let result = await fetch(`https://e-dashboard-two.vercel.app/search/${key}`);
     result = await result.json();
     if (result) {
       setProducts(result);
