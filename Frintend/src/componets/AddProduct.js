@@ -21,7 +21,7 @@ const SubmitHandler = (event) => {
   
     const AddProduct=async()=>{
     const USER_Id = await JSON.parse(localStorage.getItem('user'))._id;
-    let result= await fetch('/Add',{
+    let result= await fetch('https://e-dashboard-two.vercel.app/Add',{
             method:"POST",
             body:JSON.stringify({Company,Category,Name,Price,USER_Id}),
             headers:{
