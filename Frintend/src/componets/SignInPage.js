@@ -27,7 +27,7 @@ const SignInPage = () => {
     const password = PasswordInput.current.value;
 
     const LOGIN=async()=>{
-      let result = await fetch('/login', {
+      let result = await fetch('https://e-dashboard-two.vercel.app/login', {
         method: "POST",
         body: JSON.stringify({ email, password }),
         headers: {
