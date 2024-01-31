@@ -11,7 +11,7 @@ const ProductList = () => {
 
   const getProducts = async () => {
 
-    let result = await fetch('/products');
+    let result = await fetch('https://e-dashboard-two.vercel.app/products');
     result = await result.json();
     setProducts(result);
   }
