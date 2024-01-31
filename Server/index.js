@@ -1,15 +1,33 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
-// Load environment variables
 require('dotenv').config();
 
+const app = express();
+
 // MongoDB connection
-const mongoUrl = process.env.MONGODB_URL;
+const mongoUrl = process.env.'mongodb+srv://b522035:czeByrtqE4ZqGySE@cluster0.qlxwpom.mongodb.net/?retryWrites=true&w=majority';
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
-const app = express();
+// User Schema
+const UserSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    password: String
+});
+
+const User = mongoose.model('UserInfos', UserSchema);
+
+// Product Schema
+const ProductSchema = new mongoose.Schema({
+    USER_Id: String,
+    Company: String,
+    Category: String,
+    Name: String,
+    Price: Number,
+});
+
+const Product = mongoose.model('Products', ProductSchema);
 
 // Middleware
 app.use(cors({
@@ -18,10 +36,6 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
-
-// Schemas
-const User = require('./Schema');
-const Product = require('./ProductSchema');
 
 // Routes
 app.post('/signup', async (req, res) => {
@@ -65,10 +79,48 @@ app.post('/Add', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+app.get('/products', async (req, res) => {
+    let Productlist = await Product.find();
+    res.send(Productlist)
 
-// Add other routes...
+});
 
-// Error handling middleware
+app.delete('/product/:id', async (req, res) => {
+    const result = await Product.deleteOne({ _id: req.params.id })
+})
+
+app.get('/product/:id', async (req, res) => {
+    let result = await Product.findOne({ _id: req.params.id });
+    res.send(result)
+});
+
+app.put('/product/:id', async (req, res) => {
+    let result = await Product.updateOne(
+        { _id: req.params.id },
+        { $set: req.body }
+    );
+    res.send(result);
+});
+
+app.get('/search/:key', async (req, res) => {
+    const result = await Product.find({
+        $or: [
+            {
+                Name: { $regex: req.params.key }
+
+            },
+            {
+                Company: { $regex: req.params.key }
+            },
+            {
+                Category: { $regex: req.params.key }
+            },
+        ]
+    })
+    res.send(result);
+})
+
+
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ error: 'Internal Server Error' });
