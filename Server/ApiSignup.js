@@ -5,7 +5,11 @@ const app = express();
 const cors = require('cors');
 const Product = require('./ProductSchema');
 
-app.use(cors());
+app.use(cors({
+    origin:["https://e-dashboard-two.vercel.app"],
+    method:["POST","GET","PUT","DELETE"],
+    credentials:true
+}));
 app.use(express.json());
 
 
